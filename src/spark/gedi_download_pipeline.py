@@ -21,9 +21,9 @@ from src.data import gedi_database_loader
 from src import constants
 from functools import partial
 from typing import List, Optional
-from src.utils import util_logging
+from src.utils import logging_util
 
-logger = util_logging.get_logger(__name__)
+logger = logging_util.get_logger(__name__)
 
 
 def _check_and_format_shape(shp: gpd.GeoDataFrame) -> gpd.GeoSeries:
