@@ -3,6 +3,7 @@ import numba
 import numpy as np
 import pandas as pd
 import geopandas as gpd
+import rioxarray as rxr
 
 import pathlib
 import argparse
