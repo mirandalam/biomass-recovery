@@ -147,6 +147,7 @@ def run_program(shapefile : pathlib.Path()):
 
         #   b. Discard lower quality shots
     high_quality = merged[(merged['quality'] == 5) & (merged['degrade_flag'] == 0) & (merged['beam_type'] == 'full') & (merged['l4_quality_flag'] == 1)]
+    high_quality.to_csv(os.path.join('/home/okml2/gedi_agbd_output/' + project + '/'+ project + '_30km_quality_shots.csv'))
 
     # 3. (CALCULATION)
         #   a. Group GEDI shots by AFC class
@@ -155,7 +156,7 @@ def run_program(shapefile : pathlib.Path()):
         #   b. Get description of AGBD values
     agbd_val = by_class.describe()
     #print(agbd_val)
-    agbd_val.to_csv(os.path.join('/home/okml2/', project + '_agbd.csv'))
+    agbd_val.to_csv(os.path.join('/home/okml2/gedi_agbd_output/' + project + '/'+ project + '_agbd.csv'))
     return agbd_val
 
 if __name__ == "__main__":
