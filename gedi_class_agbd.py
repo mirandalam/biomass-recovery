@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rioxarray as rxr
+from shapely.ops import cascaded_union
 
 import pathlib
 import argparse
@@ -25,13 +26,15 @@ def arg_toptwo_nearest_centers(array, values):
 
     return argmins
 
-def run_program(shapefile : pathlib.Path()):
+def run_full_program(shapefile : pathlib.Path()):
     # 1. (DATA LOAD)
         #   a. Load GEDI data for AOI and year 2020
     shp_file = gpd.read_file(shapefile)
     project = os.path.basename(os.path.dirname(shapefile))
-    geometry = shp_file['geometry']
-    #geometry = shp_file['geometry'].to_crs(crs = 3857).buffer(30000, cap_style = 3, join_style = 2).to_crs(crs = 4326) # Getting geometry of shape file with a 30 km buffer
+    #geometry = shp_file['geometry']
+    geometry = shp_file['geometry'].to_crs(crs = 3857).buffer(30000).to_crs(crs = 4326) # Getting geometry of shape file with a 30 km buffer
+    geometry = gpd.GeoSeries(cascaded_union(geometry))
+    
     database = GediDatabase() 
 
     gedi_shots = database.query(
@@ -175,5 +178,5 @@ if __name__ == "__main__":
         print("Unable to locate file {}".format(shapefile))
         exit(1)
     
-    run_program(shapefile)
+    run_full_program(shapefile)
     print("Done")
