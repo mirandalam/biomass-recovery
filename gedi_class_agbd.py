@@ -33,7 +33,7 @@ def run_full_program(shapefile : pathlib.Path()):
     project = os.path.basename(os.path.dirname(shapefile))
     #geometry = shp_file['geometry']
     geometry = shp_file['geometry'].to_crs(crs = 3857).buffer(30000).to_crs(crs = 4326) # Getting geometry of shape file with a 30 km buffer
-    geometry = gpd.GeoSeries(cascaded_union(geometry))
+    geometry = gpd.GeoSeries(cascaded_union(geometry)).set_crs(crs = 4326)
     
     database = GediDatabase() 
 
